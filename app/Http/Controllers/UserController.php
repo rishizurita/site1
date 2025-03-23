@@ -44,12 +44,8 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::where('userid', $id)->first();
-        if ($user) {
-            return $this->successResponse($user);
-        } else {
-            return $this->errorResponse('User ID Does Not Exist', Response::HTTP_NOT_FOUND);
-        }
+        $user = User::findOrFail($id);
+        return $this->successResponse($user);
     }
 
     public function update(Request $request, $id)
@@ -59,9 +55,11 @@ class UserController extends Controller
             'password' => 'max:20',
             'gender' => 'in:Male,Female',
         ];
+
         $this->validate($request, $rules);
         $user = User::findOrFail($id);
         $user->fill($request->all());
+
         if ($user->isClean()) {
             return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -76,4 +74,6 @@ class UserController extends Controller
 
         return $this->successResponse('User deleted successfully');
     }
+
 }
+  
