@@ -5,7 +5,6 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('/users', ['uses' => 'UserController@getUsers']);
-$router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->get('/users', 'UserController@index');//get all users records
     $router->post('/users', 'UserController@addUser');//create new user record
@@ -14,4 +13,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->patch('/users/{id}', 'UserController@update');//update user record
     $router->delete('/users/{id}', 'UserController@delete');//delete record
 
-});
+    //user job routes
+    $router->get('/usersjob', 'UserJobController@index'); // Get all jobs
+    $router->get('/usersjob/{id}', 'UserJobController@show'); // Get job by ID
+    
